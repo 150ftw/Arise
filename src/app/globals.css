@@ -2,7 +2,21 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0b1220;
+
+  /* Icon Power Solutions brand tokens */
+  --color-brand-navy-950: #061a2c;
+  --color-brand-navy-900: #0a2540;
+  --color-brand-navy-800: #123a5e;
+  --color-brand-navy-700: #1b4d78;
+  --color-brand-accent-600: #1489b8;
+  --color-brand-accent-500: #1eabe6;
+  --color-brand-accent-400: #4dc0ee;
+  --color-brand-accent-100: #e3f5fc;
+  --color-brand-steel-600: #4b5a6b;
+  --color-brand-steel-400: #8ea0b3;
+  --color-brand-paper: #f5f8fa;
+  --color-brand-line: #e2e8f0;
 }
 
 @theme inline {
@@ -10,17 +24,27 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-brand-navy-950: var(--color-brand-navy-950);
+  --color-brand-navy-900: var(--color-brand-navy-900);
+  --color-brand-navy-800: var(--color-brand-navy-800);
+  --color-brand-navy-700: var(--color-brand-navy-700);
+  --color-brand-accent-600: var(--color-brand-accent-600);
+  --color-brand-accent-500: var(--color-brand-accent-500);
+  --color-brand-accent-400: var(--color-brand-accent-400);
+  --color-brand-accent-100: var(--color-brand-accent-100);
+  --color-brand-steel-600: var(--color-brand-steel-600);
+  --color-brand-steel-400: var(--color-brand-steel-400);
+  --color-brand-paper: var(--color-brand-paper);
+  --color-brand-line: var(--color-brand-line);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--color-brand-accent-100);
+  color: var(--color-brand-navy-900);
 }
