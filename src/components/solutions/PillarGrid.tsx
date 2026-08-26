@@ -29,7 +29,7 @@ export function PillarGrid({ pillars }: { pillars: SolutionPillar[] }) {
       {pillars.map((pillar, i) => {
         const Icon = icons[pillar.slug] ?? Server;
         return (
-          <Reveal key={pillar.slug} delay={(i % 4) * 0.06}>
+          <Reveal key={pillar.slug} delay={(i % 4) * 0.06} className="h-full flex flex-col">
             <div className="flex h-full flex-col gap-5 p-7">
               <Icon className="h-6 w-6 text-brand-accent-600" strokeWidth={1.6} />
               <h3 className="text-sm leading-5 font-semibold text-brand-navy-900">{pillar.title}</h3>

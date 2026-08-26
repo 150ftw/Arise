@@ -36,8 +36,8 @@ export function FeaturedProducts() {
 
         <div className="mt-10 grid grid-cols-2 gap-px overflow-hidden border border-brand-line bg-brand-line sm:grid-cols-4">
           {featured.map(({ category, product }, i) => (
-            <Reveal key={product.slug} delay={(i % 4) * 0.06}>
-              <Link href={`/products#${category.slug}`} className="group flex flex-col bg-white">
+            <Reveal key={product.slug} delay={(i % 4) * 0.06} className="flex h-full flex-col">
+              <Link href={`/products#${category.slug}`} className="group flex h-full flex-col bg-white">
                 <div className="relative aspect-square overflow-hidden bg-brand-paper">
                   <Image
                     src={product.images[0].src}
@@ -47,9 +47,15 @@ export function FeaturedProducts() {
                     className="object-contain p-6 transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <div className="border-t border-brand-line px-4 py-4">
-                  <p className="text-[11px] font-semibold tracking-wide text-brand-accent-600 uppercase">{category.title}</p>
-                  <h3 className="mt-1 text-sm leading-5 font-semibold text-brand-navy-900">{product.name}</h3>
+                <div className="flex flex-1 flex-col justify-between border-t border-brand-line p-4">
+                  <div>
+                    <p className="line-clamp-1 text-[11px] font-semibold tracking-wide text-brand-accent-600 uppercase" title={category.title}>
+                      {category.title}
+                    </p>
+                    <h3 className="mt-1 line-clamp-2 text-sm leading-5 font-semibold text-brand-navy-900" title={product.name}>
+                      {product.name}
+                    </h3>
+                  </div>
                 </div>
               </Link>
             </Reveal>
