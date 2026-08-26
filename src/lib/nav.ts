@@ -6,6 +6,7 @@ export const primaryNav = [
   { href: "/capabilities", label: "Capabilities" },
   { href: "/products", label: "Products", mega: "products" as const },
   { href: "/solutions", label: "Solutions", mega: "solutions" as const },
+  { href: "/case-studies", label: "Case Studies" },
   { href: "/presence", label: "Presence" },
   { href: "/customers", label: "Customers" },
   { href: "/financials", label: "Why Icon Power" },

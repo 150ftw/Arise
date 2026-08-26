@@ -5,10 +5,12 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { CtaBanner } from "@/components/ui/CtaBanner";
 import { StatCard } from "@/components/about/StatCard";
+import { InteractiveTimeline } from "@/components/about/InteractiveTimeline";
+import { VirtualFactoryTour } from "@/components/about/VirtualFactoryTour";
 import { company, strategicPillars } from "@/lib/data/company";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About Icon Power Solutions",
   description: `${company.shortName} — state-of-the-art infrastructure, ${company.yearsExperience} years of experience and ${company.certification}.`,
 };
 
@@ -41,7 +43,36 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className="bg-brand-paper py-20 sm:py-24">
+      {/* Interactive Company Timeline */}
+      <section className="border-t border-brand-line bg-brand-paper py-20 sm:py-24">
+        <Container>
+          <SectionHeading
+            eyebrow="Chronology"
+            title="25+ Years of engineering evolution & milestones"
+            description="From a specialized power electronics R&D setup in 2001 to aerospace AS9100D certification and subsea defense power engineering."
+          />
+          <div className="mt-10">
+            <InteractiveTimeline />
+          </div>
+        </Container>
+      </section>
+
+      {/* Interactive Virtual Factory Tour */}
+      <section className="border-t border-brand-line bg-white py-20 sm:py-24">
+        <Container>
+          <SectionHeading
+            eyebrow="Manufacturing Footprint"
+            title="Two advanced manufacturing & testing centres"
+            description="Explore our fully backward-integrated production bays, CNC machine shops, aerospace harness cells, and MIL-STD testing laboratories in IMT Manesar and Gurugram."
+          />
+          <div className="mt-10">
+            <VirtualFactoryTour />
+          </div>
+        </Container>
+      </section>
+
+      {/* Strategic Pillars */}
+      <section className="border-t border-brand-line bg-brand-paper py-20 sm:py-24">
         <Container>
           <SectionHeading eyebrow="Strategic pillars" title="Built for backward integration and scale" align="center" />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -64,3 +95,4 @@ export default function AboutPage() {
     </>
   );
 }
+
