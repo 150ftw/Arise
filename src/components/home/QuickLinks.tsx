@@ -9,7 +9,7 @@ export function QuickLinks() {
       <Container>
         <div className="grid gap-px overflow-hidden border border-brand-line bg-brand-line sm:grid-cols-2 lg:grid-cols-4">
           {quickLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="group relative flex aspect-[4/5] flex-col justify-end bg-brand-navy-950">
+            <Link key={link.href} href={link.href} className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden bg-brand-navy-950">
               <Image
                 src={link.image}
                 alt=""
