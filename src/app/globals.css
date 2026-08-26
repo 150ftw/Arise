@@ -79,14 +79,16 @@ body {
 }
 
 .marquee-forward {
-  animation: marquee-scroll 42s linear infinite;
+  animation: marquee-scroll 85s linear infinite;
+  will-change: transform;
 }
 
 .marquee-reverse {
-  animation: marquee-scroll-reverse 42s linear infinite;
+  animation: marquee-scroll-reverse 85s linear infinite;
+  will-change: transform;
 }
 
-.marquee-track:hover {
+.marquee-row:hover .marquee-track {
   animation-play-state: paused;
 }
 

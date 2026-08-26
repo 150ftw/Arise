@@ -12,7 +12,7 @@ const row2Items = [
 
 function CustomerCard({ customer }: { customer: Customer }) {
   return (
-    <div className="w-80 shrink-0 rounded-2xl border border-brand-line/80 bg-white p-5 shadow-[0_2px_10px_rgba(0,0,0,0.03)] transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-accent-400/40 hover:shadow-md sm:w-88">
+    <div className="w-80 shrink-0 select-none rounded-2xl border border-brand-line/80 bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.03)] transition-all duration-200 hover:border-brand-accent-500/50 hover:shadow-md sm:w-88">
       <div className="flex items-center gap-3.5">
         <div
           className={`h-11 w-11 shrink-0 rounded-full bg-gradient-to-br ${customer.gradient} flex items-center justify-center text-xs font-bold text-white shadow-inner`}
@@ -77,8 +77,8 @@ export function TrustStrip() {
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-brand-paper via-brand-paper/80 to-transparent sm:w-36" />
 
         {/* Row 1 - Forward */}
-        <div className="flex overflow-hidden">
-          <div className="marquee-forward marquee-track flex shrink-0 items-center gap-4 py-1">
+        <div className="marquee-row relative flex overflow-hidden py-1">
+          <div className="marquee-forward marquee-track flex w-max items-center gap-4">
             {row1Items.map((c, i) => (
               <CustomerCard key={`row1-${c.name}-${i}`} customer={c} />
             ))}
@@ -86,8 +86,8 @@ export function TrustStrip() {
         </div>
 
         {/* Row 2 - Reverse */}
-        <div className="flex overflow-hidden">
-          <div className="marquee-reverse marquee-track flex shrink-0 items-center gap-4 py-1">
+        <div className="marquee-row relative flex overflow-hidden py-1">
+          <div className="marquee-reverse marquee-track flex w-max items-center gap-4">
             {row2Items.map((c, i) => (
               <CustomerCard key={`row2-${c.name}-${i}`} customer={c} />
             ))}
