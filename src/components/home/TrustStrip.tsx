@@ -2,17 +2,12 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { domesticCustomers, globalCustomers, type Customer } from "@/lib/data/customers";
 
-const row1Items = [...domesticCustomers, ...domesticCustomers];
-const row2Items = [
-  ...globalCustomers,
-  ...domesticCustomers.slice().reverse(),
-  ...globalCustomers,
-  ...domesticCustomers.slice().reverse(),
-];
+const row1 = domesticCustomers;
+const row2 = [...globalCustomers, ...domesticCustomers.slice(0, 7)];
 
 function CustomerCard({ customer }: { customer: Customer }) {
   return (
-    <div className="w-80 shrink-0 select-none rounded-2xl border border-brand-line/80 bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.03)] transition-all duration-200 hover:border-brand-accent-500/50 hover:shadow-md sm:w-88">
+    <div className="w-80 shrink-0 select-none rounded-2xl border border-brand-line/80 bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.03)] transition-colors duration-150 hover:border-brand-accent-500/60 sm:w-88">
       <div className="flex items-center gap-3.5">
         <div
           className={`h-11 w-11 shrink-0 rounded-full bg-gradient-to-br ${customer.gradient} flex items-center justify-center text-xs font-bold text-white shadow-inner`}
@@ -77,19 +72,35 @@ export function TrustStrip() {
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-brand-paper via-brand-paper/80 to-transparent sm:w-36" />
 
         {/* Row 1 - Forward */}
-        <div className="marquee-row relative flex overflow-hidden py-1">
-          <div className="marquee-forward marquee-track flex w-max items-center gap-4">
-            {row1Items.map((c, i) => (
-              <CustomerCard key={`row1-${c.name}-${i}`} customer={c} />
+        <div className="group flex overflow-hidden p-1 [--gap:1rem] [gap:var(--gap)]">
+          <div className="flex shrink-0 items-center justify-around [gap:var(--gap)] animate-marquee group-hover:[animation-play-state:paused]">
+            {row1.map((c) => (
+              <CustomerCard key={`row1-${c.name}`} customer={c} />
+            ))}
+          </div>
+          <div
+            className="flex shrink-0 items-center justify-around [gap:var(--gap)] animate-marquee group-hover:[animation-play-state:paused]"
+            aria-hidden="true"
+          >
+            {row1.map((c, i) => (
+              <CustomerCard key={`row1-clone-${c.name}-${i}`} customer={c} />
             ))}
           </div>
         </div>
 
         {/* Row 2 - Reverse */}
-        <div className="marquee-row relative flex overflow-hidden py-1">
-          <div className="marquee-reverse marquee-track flex w-max items-center gap-4">
-            {row2Items.map((c, i) => (
-              <CustomerCard key={`row2-${c.name}-${i}`} customer={c} />
+        <div className="group flex overflow-hidden p-1 [--gap:1rem] [gap:var(--gap)]">
+          <div className="flex shrink-0 items-center justify-around [gap:var(--gap)] animate-marquee-reverse group-hover:[animation-play-state:paused]">
+            {row2.map((c) => (
+              <CustomerCard key={`row2-${c.name}`} customer={c} />
+            ))}
+          </div>
+          <div
+            className="flex shrink-0 items-center justify-around [gap:var(--gap)] animate-marquee-reverse group-hover:[animation-play-state:paused]"
+            aria-hidden="true"
+          >
+            {row2.map((c, i) => (
+              <CustomerCard key={`row2-clone-${c.name}-${i}`} customer={c} />
             ))}
           </div>
         </div>
