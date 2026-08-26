@@ -1,16 +1,73 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import worldMap from "@svg-maps/world";
 import { globalPresenceCountries } from "@/lib/data/presence";
 
 type Location = { id: string; name: string; path: string };
+type Point = { x: number; y: number };
+
+const HQ_COUNTRY_ID = "in";
+
+function HQMarker({ point }: { point: Point }) {
+  return (
+    <g>
+      <circle cx={point.x} cy={point.y} r="7" className="fill-brand-accent-500/25 animate-ping" style={{ transformOrigin: `${point.x}px ${point.y}px` }} />
+      <circle cx={point.x} cy={point.y} r="3.2" className="fill-brand-navy-900 stroke-white" strokeWidth="1" />
+    </g>
+  );
+}
+
+function ConnectorLine({ from, to }: { from: Point; to: Point }) {
+  const length = Math.hypot(to.x - from.x, to.y - from.y);
+  const [drawn, setDrawn] = useState(false);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setDrawn(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  return (
+    <path
+      d={`M ${from.x} ${from.y} L ${to.x} ${to.y}`}
+      fill="none"
+      stroke="#16AFE2"
+      strokeWidth={1.1}
+      strokeLinecap="round"
+      style={{
+        strokeDasharray: length,
+        strokeDashoffset: drawn ? 0 : length,
+        transition: "stroke-dashoffset 650ms cubic-bezier(0.22, 1, 0.36, 1)",
+      }}
+    />
+  );
+}
 
 export function WorldMap() {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [hqPoint, setHqPoint] = useState<Point | null>(null);
+  const [activePoint, setActivePoint] = useState<Point | null>(null);
+  const pathRefs = useRef<Record<string, SVGPathElement | null>>({});
+
   const locations = worldMap.locations as Location[];
   const highlightIds = new Set(globalPresenceCountries.map((c) => c.id));
   const activeCountry = globalPresenceCountries.find((c) => c.id === activeId);
+
+  useEffect(() => {
+    const hqEl = pathRefs.current[HQ_COUNTRY_ID];
+    if (!hqEl) return;
+    const box = hqEl.getBBox();
+    setHqPoint({ x: box.x + box.width / 2, y: box.y + box.height / 2 });
+  }, []);
+
+  function handleEnter(id: string) {
+    setActiveId(id);
+    const el = pathRefs.current[id];
+    if (el) {
+      const box = el.getBBox();
+      setActivePoint({ x: box.x + box.width / 2, y: box.y + box.height / 2 });
+    }
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -22,8 +79,11 @@ export function WorldMap() {
             return (
               <path
                 key={loc.id}
+                ref={(el) => {
+                  pathRefs.current[loc.id] = el;
+                }}
                 d={loc.path}
-                onMouseEnter={() => isHighlighted && setActiveId(loc.id)}
+                onMouseEnter={() => isHighlighted && handleEnter(loc.id)}
                 onMouseLeave={() => isHighlighted && setActiveId(null)}
                 aria-label={isHighlighted ? loc.name : undefined}
                 className={[
@@ -36,14 +96,21 @@ export function WorldMap() {
               />
             );
           })}
+
+          {hqPoint && activePoint && activeId ? <ConnectorLine key={activeId} from={activePoint} to={hqPoint} /> : null}
+          {hqPoint ? <HQMarker point={hqPoint} /> : null}
         </svg>
       </div>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="inline-flex items-center gap-1.5 pr-2 text-xs text-brand-steel-600">
+          <span className="h-2 w-2 shrink-0 rounded-full bg-brand-navy-900" />
+          Manesar HQ
+        </span>
         {globalPresenceCountries.map((c) => (
           <span
             key={c.id}
-            onMouseEnter={() => setActiveId(c.id)}
+            onMouseEnter={() => handleEnter(c.id)}
             onMouseLeave={() => setActiveId(null)}
             className={`cursor-default border px-4 py-1.5 text-sm font-medium transition-colors ${
               activeCountry?.id === c.id

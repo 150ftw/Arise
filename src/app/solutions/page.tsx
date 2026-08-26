@@ -3,7 +3,6 @@ import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/ui/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { BulletList } from "@/components/ui/BulletList";
-import { Reveal } from "@/components/ui/Reveal";
 import { CtaBanner } from "@/components/ui/CtaBanner";
 import { PillarGrid } from "@/components/solutions/PillarGrid";
 import { HubDiagram } from "@/components/solutions/HubDiagram";
@@ -57,13 +56,11 @@ export default function SolutionsPage() {
       <section id="data-centre" className="scroll-mt-28 bg-white py-20 sm:py-24">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <Reveal>
+            <div>
               <SectionHeading eyebrow="Data Centre Solution" title="Tier III/IV architecture, built for uptime" />
               <BulletList items={dataCentreObjectives} className="mt-8" />
-            </Reveal>
-            <Reveal delay={0.1}>
-              <HubDiagram centerLabel="Data Center" items={dataCentreHubItems} tone="light" />
-            </Reveal>
+            </div>
+            <HubDiagram centerLabel="Data Center" items={dataCentreHubItems} tone="light" />
           </div>
         </Container>
       </section>
@@ -80,16 +77,12 @@ export default function SolutionsPage() {
       <section id="cctv" className="scroll-mt-28 bg-white py-20 sm:py-24">
         <Container>
           <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-center">
-            <Reveal>
-              <SectionHeading
-                eyebrow="CCTV System"
-                title="IP camera security, from OEM partners"
-                description="Bullet, PTZ and PTZ Dome cameras, capacity and features customized to the deployment."
-              />
-            </Reveal>
-            <Reveal delay={0.1}>
-              <BulletList items={cctvFeatures} />
-            </Reveal>
+            <SectionHeading
+              eyebrow="CCTV System"
+              title="IP camera security, from OEM partners"
+              description="Bullet, PTZ and PTZ Dome cameras, capacity and features customized to the deployment."
+            />
+            <BulletList items={cctvFeatures} />
           </div>
         </Container>
       </section>
@@ -106,7 +99,7 @@ export default function SolutionsPage() {
           <div className="mt-12">
             <PSIMDiagram inputs={commandControlFeatures.integratedSystems} outputs={commandControlFeatures.outputs} />
           </div>
-          <Reveal className="mx-auto mt-12 max-w-3xl border border-white/10 bg-brand-navy-900/60 p-8">
+          <div className="mx-auto mt-12 max-w-3xl border border-white/10 bg-brand-navy-900/60 p-8">
             <h3 className="text-sm font-semibold tracking-wide text-brand-accent-400 uppercase">Video Analytics</h3>
             <div className="mt-4 flex flex-wrap gap-2">
               {commandControlFeatures.videoAnalytics.map((v) => (
@@ -115,7 +108,7 @@ export default function SolutionsPage() {
                 </span>
               ))}
             </div>
-          </Reveal>
+          </div>
         </Container>
       </section>
 

@@ -19,8 +19,8 @@ export const company = {
 
 export const heroStats = [
   { label: "Established", value: "2001" },
-  { label: "Experience", value: "25+ yrs" },
-  { label: "Employees", value: "150+" },
+  { label: "Experience", number: 25, suffix: "+ yrs" },
+  { label: "Employees", number: 150, suffix: "+" },
   { label: "Service Support", value: "PAN India" },
   { label: "Certification", value: "AS9100D" },
 ] as const;

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/ui/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/ui/Reveal";
 import { CtaBanner } from "@/components/ui/CtaBanner";
 import { domesticCustomers, globalCustomers } from "@/lib/data/customers";
 
@@ -48,18 +47,18 @@ export default function CustomersPage() {
       <section className="bg-white py-20 sm:py-24">
         <Container>
           <div className="grid gap-16 lg:grid-cols-2">
-            <Reveal>
+            <div>
               <SectionHeading eyebrow="Domestic" title="Domestic customers" />
               <div className="mt-8">
                 <CustomerList items={domesticCustomers} />
               </div>
-            </Reveal>
-            <Reveal delay={0.1}>
+            </div>
+            <div>
               <SectionHeading eyebrow="Global" title="Global customers" />
               <div className="mt-8">
                 <CustomerList items={globalCustomers} />
               </div>
-            </Reveal>
+            </div>
           </div>
         </Container>
       </section>

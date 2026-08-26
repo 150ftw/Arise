@@ -1,6 +1,5 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { company, strategicPillars } from "@/lib/data/company";
 
@@ -9,7 +8,7 @@ export function AboutSnapshot() {
     <section className="bg-white py-16 sm:py-20">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-start">
-          <Reveal className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6">
             <SectionHeading
               eyebrow="Who we are"
               title={`${company.shortName}, since ${company.established}`}
@@ -18,9 +17,9 @@ export function AboutSnapshot() {
             <Button href="/about" variant="secondary" className="w-fit">
               About Icon Power
             </Button>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.1} className="grid gap-px overflow-hidden border border-brand-line bg-brand-line sm:grid-cols-2">
+          <div className="grid gap-px overflow-hidden border border-brand-line bg-brand-line sm:grid-cols-2">
             {strategicPillars.map((pillar, i) => (
               <div key={pillar.title} className="flex flex-col gap-2 bg-white p-6">
                 <span className="text-sm font-mono font-semibold text-brand-accent-600">
@@ -30,7 +29,7 @@ export function AboutSnapshot() {
                 <p className="text-sm leading-6 text-brand-steel-600">{pillar.description}</p>
               </div>
             ))}
-          </Reveal>
+          </div>
         </div>
       </Container>
     </section>

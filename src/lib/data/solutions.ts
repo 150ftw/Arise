@@ -81,25 +81,29 @@ export const cctvFeatures = [
 
 export const commandControlFeatures = {
   intro: "Integrates multiple technologies into a single window for alerts and management — Situational Awareness Matters.",
+  // One-line descriptions are generic, industry-standard characterisations of
+  // what each PSIM input/output does — not specific claims about Icon Power's
+  // implementation, since the source profile only labels these, it doesn't
+  // describe them.
   integratedSystems: [
-    "Access Control",
-    "Video System",
-    "Intrusion Detection",
-    "Fire Alarm",
-    "Intercom",
-    "Heating",
-    "Water",
-    "Electricity",
+    { label: "Access Control", description: "Badge, biometric and PIN-based entry control across doors and secure zones." },
+    { label: "Video System", description: "Live and recorded CCTV feeds unified into a single monitoring view." },
+    { label: "Intrusion Detection", description: "Perimeter and zone sensors that flag unauthorized entry in real time." },
+    { label: "Fire Alarm", description: "Smoke, heat and flame detection wired into the same incident workflow." },
+    { label: "Intercom", description: "Two-way audio at entry points, tied to access-control events." },
+    { label: "Heating", description: "Facility heating status and faults surfaced alongside security alarms." },
+    { label: "Water", description: "Utility and leak-detection monitoring folded into the same dashboard." },
+    { label: "Electricity", description: "Power distribution status feeding into the same situational picture." },
   ],
   outputs: [
-    "Graphical User Interface",
-    "Video Wall",
-    "Alarm Monitoring",
-    "Incident Management",
-    "Workflow",
-    "Alarm Broadcast",
-    "Reporting",
-    "Return on Investment",
+    { label: "Graphical User Interface", description: "One operator screen for every integrated subsystem." },
+    { label: "Video Wall", description: "Multi-camera and multi-feed display for the control room." },
+    { label: "Alarm Monitoring", description: "Real-time alarm triage across all connected systems." },
+    { label: "Incident Management", description: "Structured logging and response tracking for every event." },
+    { label: "Workflow", description: "Standard operating procedures triggered automatically by alarm type." },
+    { label: "Alarm Broadcast", description: "Notifications pushed to the right responder the moment an alarm fires." },
+    { label: "Reporting", description: "Audit-ready incident and system-health reports." },
+    { label: "Return on Investment", description: "Consolidated systems reduce duplicate hardware and operator headcount." },
   ],
   videoAnalytics: [
     "Perimeter Trip Wire",

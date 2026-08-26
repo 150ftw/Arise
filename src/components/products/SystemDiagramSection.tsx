@@ -1,6 +1,5 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { BulletList } from "@/components/ui/BulletList";
-import { Reveal } from "@/components/ui/Reveal";
 import { FlowDiagram } from "@/components/products/FlowDiagram";
 
 type DiagramConfig = {
@@ -30,16 +29,16 @@ export function SystemDiagramSection({
   tone?: "paper" | "white";
 }) {
   return (
-    <section id={id} className={`scroll-mt-[150px] py-16 sm:py-20 ${tone === "paper" ? "bg-brand-paper" : "bg-white"}`}>
+    <section id={id} className={`scroll-mt-[112px] py-16 sm:py-20 ${tone === "paper" ? "bg-brand-paper" : "bg-white"}`}>
       <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
         <SectionHeading eyebrow={`Products · ${String(index + 1).padStart(2, "0")} · ${eyebrow}`} title={title} description={description} />
-        <Reveal className="mt-10 border border-brand-line bg-white p-6 sm:p-10">
+        <div className="mt-10 border border-brand-line bg-white p-6 sm:p-10">
           <FlowDiagram nodes={diagram.nodes} edges={diagram.edges} width={diagram.width} height={diagram.height} />
-        </Reveal>
+        </div>
         {points ? (
-          <Reveal delay={0.1} className="mt-8 max-w-2xl">
+          <div className="mt-8 max-w-2xl">
             <BulletList items={points} />
-          </Reveal>
+          </div>
         ) : null}
       </div>
     </section>

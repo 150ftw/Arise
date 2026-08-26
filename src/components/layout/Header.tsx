@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Logo } from "@/components/ui/Logo";
 import { Container } from "@/components/ui/Container";
 import { primaryNav, productMegaMenu, solutionsMegaMenu } from "@/lib/nav";
@@ -15,29 +15,50 @@ const megaContent: Record<string, { href: string; label: string }[]> = {
 export function Header() {
   const [openMega, setOpenMega] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [condensed, setCondensed] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      setCondensed(window.scrollY > 72);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white">
+    <header
+      className={`sticky top-0 z-50 bg-white transition-shadow duration-300 ${
+        condensed ? "shadow-[0_4px_16px_-6px_rgba(9,37,63,0.18)]" : ""
+      }`}
+    >
       <div className="h-[3px] bg-gradient-to-r from-brand-navy-900 via-brand-accent-500 to-brand-accent-400" />
-      <div className="hidden border-b border-brand-line bg-brand-navy-950 lg:block">
-        <Container className="flex items-center justify-between py-2 text-xs text-white/60">
-          <span>{company.certification} &middot; PAN India &amp; Global Service Support</span>
-          <div className="flex items-center gap-6">
-            <a href={`tel:${company.phones[0].replace(/[^\d+]/g, "")}`} className="hover:text-white">
-              {company.phones[0]}
-            </a>
-            <a href={`mailto:${company.email}`} className="hover:text-white">
-              {company.email}
-            </a>
-            <Link href="/financials" className="hover:text-white">
-              Why Icon Power
-            </Link>
-          </div>
-        </Container>
+
+      <div
+        className={`hidden overflow-hidden bg-brand-navy-950 transition-[grid-template-rows] duration-300 ease-out lg:grid ${
+          condensed ? "grid-rows-[0fr]" : "grid-rows-[1fr] border-b border-brand-line"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <Container className="flex items-center justify-between py-2 text-xs text-white/60">
+            <span>{company.certification} &middot; PAN India &amp; Global Service Support</span>
+            <div className="flex items-center gap-6">
+              <a href={`tel:${company.phones[0].replace(/[^\d+]/g, "")}`} className="hover:text-white">
+                {company.phones[0]}
+              </a>
+              <a href={`mailto:${company.email}`} className="hover:text-white">
+                {company.email}
+              </a>
+              <Link href="/financials" className="hover:text-white">
+                Why Icon Power
+              </Link>
+            </div>
+          </Container>
+        </div>
       </div>
 
       <div className="border-b border-brand-line">
-        <Container className="flex items-center justify-between py-4">
+        <Container className={`flex items-center justify-between transition-[padding] duration-300 ease-out ${condensed ? "py-2.5" : "py-4"}`}>
           <Logo />
 
           <nav className="hidden items-stretch lg:flex" onMouseLeave={() => setOpenMega(null)}>
@@ -56,7 +77,7 @@ export function Header() {
           <div className="hidden lg:block">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center border border-brand-navy-900 bg-brand-navy-900 px-5 py-2.5 text-xs font-semibold tracking-wide text-white uppercase transition-colors hover:bg-brand-navy-800"
+              className="inline-flex items-center justify-center border border-brand-navy-900 bg-brand-navy-900 px-5 py-2.5 text-xs font-semibold tracking-wide text-white uppercase transition-all duration-200 ease-out hover:scale-[1.03] hover:bg-brand-navy-800 hover:shadow-[0_8px_20px_-6px_rgba(9,37,63,0.35)] active:scale-[0.99]"
             >
               Contact Us
             </Link>

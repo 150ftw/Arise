@@ -4,17 +4,24 @@
   --background: #ffffff;
   --foreground: #0b1220;
 
-  /* Icon Power Solutions brand tokens */
-  --color-brand-navy-950: #061a2c;
-  --color-brand-navy-900: #0a2540;
-  --color-brand-navy-800: #123a5e;
-  --color-brand-navy-700: #1b4d78;
-  --color-brand-accent-600: #1489b8;
-  --color-brand-accent-500: #1eabe6;
-  --color-brand-accent-400: #4dc0ee;
-  --color-brand-accent-100: #e3f5fc;
-  --color-brand-steel-600: #4b5a6b;
-  --color-brand-steel-400: #8ea0b3;
+  /* Icon Power Solutions brand tokens — sampled from the company logo (blue
+     triangle #16afe2, grey triangle #818285) and the one authored dark panel
+     colour in the company profile deck (#155795, Thank You page). Navy scale
+     below is that same hue/saturation, only lightness varies. */
+  --color-brand-navy-950: #061a2d;
+  --color-brand-navy-900: #09253f;
+  --color-brand-navy-800: #0d3459;
+  --color-brand-navy-700: #114679;
+  --color-brand-navy-600: #155694;
+  --color-brand-accent-600: #1290ba;
+  --color-brand-accent-500: #16afe2;
+  --color-brand-accent-400: #4ec6ee;
+  --color-brand-accent-100: #def4fc;
+  --color-brand-steel-600: #5a5b5d;
+  --color-brand-steel-400: #818285;
+  --color-brand-copper-600: #96552c;
+  --color-brand-copper-500: #c4703a;
+  --color-brand-copper-400: #d08d62;
   --color-brand-paper: #f5f8fa;
   --color-brand-line: #e2e8f0;
 }
@@ -23,18 +30,22 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-jetbrains-mono);
 
   --color-brand-navy-950: var(--color-brand-navy-950);
   --color-brand-navy-900: var(--color-brand-navy-900);
   --color-brand-navy-800: var(--color-brand-navy-800);
   --color-brand-navy-700: var(--color-brand-navy-700);
+  --color-brand-navy-600: var(--color-brand-navy-600);
   --color-brand-accent-600: var(--color-brand-accent-600);
   --color-brand-accent-500: var(--color-brand-accent-500);
   --color-brand-accent-400: var(--color-brand-accent-400);
   --color-brand-accent-100: var(--color-brand-accent-100);
   --color-brand-steel-600: var(--color-brand-steel-600);
   --color-brand-steel-400: var(--color-brand-steel-400);
+  --color-brand-copper-600: var(--color-brand-copper-600);
+  --color-brand-copper-500: var(--color-brand-copper-500);
+  --color-brand-copper-400: var(--color-brand-copper-400);
   --color-brand-paper: var(--color-brand-paper);
   --color-brand-line: var(--color-brand-line);
 }
@@ -48,3 +59,50 @@ body {
   background: var(--color-brand-accent-100);
   color: var(--color-brand-navy-900);
 }
+
+@keyframes rail-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes current-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(22, 175, 226, 0.55);
+    background: var(--color-brand-steel-400);
+  }
+  35% {
+    box-shadow: 0 0 9px 2.5px rgba(22, 175, 226, 0.75);
+    background: var(--color-brand-accent-500);
+  }
+}
+
+.rail-track {
+  animation: rail-scroll 60s linear infinite;
+}
+
+.rail-track:hover {
+  animation-play-state: paused;
+}
+
+.rail-dot {
+  animation: current-pulse 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail-track {
+    animation: none !important;
+  }
+  .rail-dot {
+    animation: none !important;
+  }
+  /* HQ marker radar-ping on the presence maps (Tailwind's animate-ping) */
+  .animate-ping {
+    animation: none !important;
+  }
+}
+

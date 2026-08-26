@@ -4,8 +4,11 @@ import { PageHero } from "@/components/ui/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { CtaBanner } from "@/components/ui/CtaBanner";
+import { StatNumber } from "@/components/ui/StatNumber";
 import { FinancialChart } from "@/components/financials/FinancialChart";
-import { financialHighlights } from "@/lib/data/financials";
+import { financialHighlights, financialHealth } from "@/lib/data/financials";
+
+const latestYear = financialHealth[financialHealth.length - 1];
 
 export const metadata: Metadata = {
   title: "Why Icon Power",
@@ -28,9 +31,24 @@ export default function FinancialsPage() {
             title="Revenue, net profit and tangible networth — FY22-23 to FY25-26"
             description="Figures approximated from the company profile; to be confirmed against audited statements before external distribution."
           />
-          <Reveal className="mt-10">
+          <dl className="mt-10 grid grid-cols-3 divide-x divide-brand-line border border-brand-line bg-white">
+            {[
+              { label: `Revenue, FY ${latestYear.year}`, value: latestYear.revenue, prefix: "₹", suffix: "Cr", decimals: 0 },
+              { label: `Net Profit, FY ${latestYear.year}`, value: latestYear.netProfit, prefix: "₹", suffix: "Cr", decimals: 1 },
+              { label: `Tangible Networth, FY ${latestYear.year}`, value: latestYear.tangibleNetworth, prefix: "₹", suffix: "Cr", decimals: 1 },
+            ].map((stat) => (
+              <div key={stat.label} className="flex flex-col gap-1 p-6">
+                <dt className="font-mono text-2xl font-semibold text-brand-navy-900 sm:text-3xl">
+                  <StatNumber value={stat.value} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals} />
+                </dt>
+                <dd className="text-xs leading-5 text-brand-steel-600">{stat.label}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-6">
             <FinancialChart />
-          </Reveal>
+          </div>
           <p className="mt-3 text-xs text-brand-steel-600">
             TODO(client): confirm exact revenue / net profit / tangible networth figures for each fiscal year before publishing.
           </p>

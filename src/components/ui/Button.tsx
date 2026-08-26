@@ -23,7 +23,7 @@ export function Button({
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center justify-center gap-2.5 px-6 py-3.5 text-[13px] font-semibold tracking-wide uppercase transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent-500 ${variants[variant]} ${className}`}
+      className={`group inline-flex items-center justify-center gap-2.5 px-6 py-3.5 text-[13px] font-semibold tracking-wide uppercase transition-all duration-200 ease-out hover:scale-[1.03] hover:shadow-[0_8px_20px_-6px_rgba(9,37,63,0.35)] active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent-500 ${variants[variant]} ${className}`}
     >
       {children}
       <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-0.5">

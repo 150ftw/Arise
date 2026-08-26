@@ -24,19 +24,19 @@ export default function AboutPage() {
       <section className="bg-white py-20 sm:py-24">
         <Container>
           <div className="grid gap-12 lg:grid-cols-[1fr_1fr]">
-            <Reveal className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4">
               <SectionHeading
                 eyebrow="Who we are"
                 title={`${company.shortName}, since ${company.established}`}
                 description="Power electronics, electrical and mechanical designing and manufacturing, with two design, manufacturing and delivery centres and a domestic and global sales presence."
               />
-            </Reveal>
-            <Reveal delay={0.1} className="grid grid-cols-2 gap-4">
+            </div>
+            <div className="grid grid-cols-2 gap-4">
               <StatCard value={company.employeeCount} label="Employees" />
               <StatCard value={company.manufacturingShare} label="In manufacturing" />
               <StatCard value={company.certification} label="Quality certification" />
               <StatCard value={company.serviceSupport} label="Service coverage" />
-            </Reveal>
+            </div>
           </div>
         </Container>
       </section>

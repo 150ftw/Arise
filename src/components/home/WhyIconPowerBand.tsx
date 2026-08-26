@@ -1,7 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
+import { StatNumber } from "@/components/ui/StatNumber";
 import { indiaRegionBoxes, globalPresenceCountries } from "@/lib/data/presence";
 import { financialHealth } from "@/lib/data/financials";
 
@@ -9,12 +9,12 @@ const cityCount = new Set(indiaRegionBoxes.flatMap((box) => box.cities)).size;
 const latestYear = financialHealth[financialHealth.length - 1];
 
 const stats = [
-  { value: `${cityCount}+`, label: "Cities served across India" },
-  { value: String(globalPresenceCountries.length), label: "Countries of operation" },
-  { value: `₹${latestYear.revenue}Cr`, label: `Revenue, FY ${latestYear.year}` },
-  { value: "₹48Cr", label: "Working capital finance limit (Kotak Mahindra Bank)" },
-  { value: "0", label: "Financial defaults in company history" },
-  { value: "25+", label: "Years of design & manufacturing" },
+  { value: cityCount, suffix: "+", label: "Cities served across India" },
+  { value: globalPresenceCountries.length, suffix: "", label: "Countries of operation" },
+  { value: latestYear.revenue, prefix: "₹", suffix: "Cr", label: `Revenue, FY ${latestYear.year}` },
+  { value: 48, prefix: "₹", suffix: "Cr", label: "Working capital finance limit (Kotak Mahindra Bank)" },
+  { value: 0, suffix: "", label: "Financial defaults in company history" },
+  { value: 25, suffix: "+", label: "Years of design & manufacturing" },
 ];
 
 export function WhyIconPowerBand() {
@@ -38,16 +38,16 @@ export function WhyIconPowerBand() {
           </div>
         </div>
 
-        <Reveal delay={0.1} className="mt-10">
-          <dl className="grid grid-cols-2 divide-x divide-y divide-white/10 border border-white/10 sm:grid-cols-3 sm:divide-y-0 lg:grid-cols-6">
-            {stats.map((stat) => (
-              <div key={stat.label} className="flex flex-col gap-2 p-6">
-                <dt className="text-3xl font-semibold text-white">{stat.value}</dt>
-                <dd className="text-xs leading-5 text-white/55">{stat.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </Reveal>
+        <dl className="mt-10 grid grid-cols-2 divide-x divide-y divide-white/10 border border-white/10 sm:grid-cols-3 sm:divide-y-0 lg:grid-cols-6">
+          {stats.map((stat) => (
+            <div key={stat.label} className="flex flex-col gap-2 p-6">
+              <dt className="font-mono text-3xl font-semibold text-white">
+                <StatNumber value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
+              </dt>
+              <dd className="text-xs leading-5 text-white/55">{stat.label}</dd>
+            </div>
+          ))}
+        </dl>
       </Container>
     </section>
   );

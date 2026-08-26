@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/ui/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/ui/Reveal";
 import { CtaBanner } from "@/components/ui/CtaBanner";
 import { IndiaMap } from "@/components/presence/IndiaMap";
 import { WorldMap } from "@/components/presence/WorldMap";
@@ -42,9 +41,9 @@ export default function PresencePage() {
       <section className="bg-brand-paper py-20 sm:py-24">
         <Container>
           <SectionHeading eyebrow="Global" title="International presence" description="Operations and delivery across six countries." />
-          <Reveal className="mt-10">
+          <div className="mt-10">
             <WorldMap />
-          </Reveal>
+          </div>
         </Container>
       </section>
 

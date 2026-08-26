@@ -1,29 +1,34 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { StatNumber } from "@/components/ui/StatNumber";
 import { company, heroStats } from "@/lib/data/company";
 
 export function Hero() {
   return (
     <section className="bg-brand-navy-950">
       <div className="grid lg:grid-cols-2">
-        <div className="flex flex-col justify-center gap-6 px-6 py-20 sm:px-10 sm:py-24 lg:px-16 lg:py-28">
-          <span className="text-xs font-semibold tracking-[0.18em] text-brand-accent-400 uppercase">
-            Since {company.established} &middot; {company.certification}
-          </span>
-          <h1 className="text-4xl leading-[1.08] font-semibold tracking-tight text-white sm:text-5xl">
-            {company.tagline}
-          </h1>
-          <p className="max-w-lg text-base leading-7 text-white/65">
-            Icon Power Solutions engineers and manufactures mission-critical power, rack and communication
-            systems for defence, telecom and critical-infrastructure programs — {company.yearsExperience} years
-            of design, manufacturing and delivery, PAN India and across six countries.
-          </p>
-          <div className="flex flex-wrap gap-4 pt-2">
-            <Button href="/capabilities">Explore Capabilities</Button>
-            <Button href="/products" variant="outline-light">
-              Browse Products
-            </Button>
+        <div className="relative flex flex-col justify-center gap-6 overflow-hidden px-6 py-20 sm:px-10 sm:py-24 lg:px-16 lg:py-28">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_620px_420px_at_20%_45%,rgba(6,26,45,0.75),transparent_70%)]" />
+
+          <div className="relative flex flex-col gap-6">
+            <span className="text-xs font-semibold tracking-[0.18em] text-brand-accent-400 uppercase">
+              Since {company.established} &middot; {company.certification}
+            </span>
+            <h1 className="text-4xl leading-[1.08] font-semibold tracking-tight text-white sm:text-5xl">
+              {company.tagline}
+            </h1>
+            <p className="max-w-lg text-base leading-7 text-white/65">
+              Icon Power Solutions engineers and manufactures mission-critical power, rack and communication
+              systems for defence, telecom and critical-infrastructure programs — {company.yearsExperience} years
+              of design, manufacturing and delivery, PAN India and across six countries.
+            </p>
+            <div className="flex flex-wrap gap-4 pt-2">
+              <Button href="/capabilities">Explore Capabilities</Button>
+              <Button href="/products" variant="outline-light">
+                Browse Products
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -46,7 +51,9 @@ export function Hero() {
             {heroStats.map((stat) => (
               <div key={stat.label} className="flex flex-col gap-1 px-6 py-6">
                 <dt className="text-[11px] font-medium tracking-wide text-white/45 uppercase">{stat.label}</dt>
-                <dd className="text-2xl font-semibold text-white">{stat.value}</dd>
+                <dd className="font-mono text-2xl font-semibold text-white">
+                  {"number" in stat ? <StatNumber value={stat.number} suffix={stat.suffix} /> : stat.value}
+                </dd>
               </div>
             ))}
           </dl>

@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/Container";
 
 export function CategoryQuickNav({ items }: { items: { slug: string; title: string }[] }) {
   return (
-    <div className="sticky top-[65px] z-30 border-b border-brand-line bg-white lg:top-[97px]">
+    <div className="sticky top-[64px] z-30 border-b border-brand-line bg-white">
       <Container>
         <nav className="scrollbar-none flex gap-6 overflow-x-auto">
           {items.map((item) => (
