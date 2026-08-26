@@ -1,17 +1,50 @@
 export type SolutionPillar = {
   slug: string;
   title: string;
+  description: string;
 };
 
 export const solutionPillars: SolutionPillar[] = [
-  { slug: "security-surveillance", title: "Security & Surveillance Solutions" },
-  { slug: "voice-data", title: "IP-PABX, Voice & Data Solutions" },
-  { slug: "surge-protection", title: "Lightning Prevention, Surge Protection & Telecom Infra" },
-  { slug: "solar-power", title: "Solar Based Power Solutions" },
-  { slug: "networking", title: "Networking (LAN, WAN, WiFi & GEPON)" },
-  { slug: "power-management", title: "Power Supply & Management System" },
-  { slug: "video-conference", title: "Video Conference & AV Solution" },
-  { slug: "data-centre", title: "Data Center & Command Control Center" },
+  {
+    slug: "security-surveillance",
+    title: "Security & Surveillance Solutions",
+    description: "CCTV, AI video analytics, perimeter intrusion detection (PIDS), and centralized access control systems.",
+  },
+  {
+    slug: "voice-data",
+    title: "IP-PABX, Voice & Data Solutions",
+    description: "Carrier-grade unified IP exchange, partnered with Alcatel-Lucent for high-availability enterprise communications.",
+  },
+  {
+    slug: "surge-protection",
+    title: "Lightning Prevention & Surge Protection",
+    description: "Class I/II lightning surge protection, grounding systems, and ruggedized telecom shelter infrastructure.",
+  },
+  {
+    slug: "solar-power",
+    title: "Solar Based Power Solutions",
+    description: "High-efficiency off-grid, hybrid, and industrial solar generation systems engineered for mission-critical remote sites.",
+  },
+  {
+    slug: "networking",
+    title: "Networking (LAN, WAN, WiFi & GEPON)",
+    description: "Enterprise structured cabling, high-speed routing, optical fiber backbones, and secure multi-site networks.",
+  },
+  {
+    slug: "power-management",
+    title: "Power Supply & Management Systems",
+    description: "Intelligent DC power plants, rectifiers, battery storage, and real-time remote telemetry & monitoring.",
+  },
+  {
+    slug: "video-conference",
+    title: "Video Conference & AV Solutions",
+    description: "Cascadable MCU telepresence, multi-point HD video conferencing, and intelligent smart boardroom setups.",
+  },
+  {
+    slug: "data-centre",
+    title: "Data Center & Command Control Center",
+    description: "Tier III/IV server rooms, smart rack rows, precision cooling, NOC integration, and PSIM command centers.",
+  },
 ];
 
 export const dataCentreHubItems = [
