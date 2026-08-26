@@ -10,15 +10,28 @@ export const metadata: Metadata = {
   description: "Domestic and global customers of Icon Power Solutions across defence, telecom and industrial sectors.",
 };
 
-function CustomerList({ items }: { items: { name: string }[] }) {
+function CustomerList({ items }: { items: typeof domesticCustomers }) {
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       {items.map((c) => (
         <div
           key={c.name}
-          className="flex items-center border border-brand-line bg-white px-5 py-4 text-sm font-medium text-brand-navy-800"
+          className="flex flex-col justify-between border border-brand-line bg-white p-5 transition-colors hover:bg-brand-paper"
         >
-          {c.name}
+          <div className="flex items-center gap-3">
+            <div
+              className={`h-9 w-9 shrink-0 rounded-full bg-gradient-to-br ${c.gradient} flex items-center justify-center text-xs font-bold text-white shadow-inner`}
+            >
+              {c.name.slice(0, 2).toUpperCase()}
+            </div>
+            <div className="min-w-0 flex-1">
+              <h4 className="truncate text-sm font-semibold text-brand-navy-900">{c.name}</h4>
+              <p className="truncate text-xs font-medium text-brand-steel-600/80">{c.handle}</p>
+            </div>
+          </div>
+          <p className="mt-3 text-xs leading-relaxed text-brand-steel-600">
+            {c.scope}
+          </p>
         </div>
       ))}
     </div>

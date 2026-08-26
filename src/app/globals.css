@@ -60,7 +60,7 @@ body {
   color: var(--color-brand-navy-900);
 }
 
-@keyframes rail-scroll {
+@keyframes marquee-scroll {
   from {
     transform: translateX(0);
   }
@@ -69,35 +69,30 @@ body {
   }
 }
 
-@keyframes current-pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(22, 175, 226, 0.55);
-    background: var(--color-brand-steel-400);
+@keyframes marquee-scroll-reverse {
+  from {
+    transform: translateX(-50%);
   }
-  35% {
-    box-shadow: 0 0 9px 2.5px rgba(22, 175, 226, 0.75);
-    background: var(--color-brand-accent-500);
+  to {
+    transform: translateX(0);
   }
 }
 
-.rail-track {
-  animation: rail-scroll 60s linear infinite;
+.marquee-forward {
+  animation: marquee-scroll 42s linear infinite;
 }
 
-.rail-track:hover {
+.marquee-reverse {
+  animation: marquee-scroll-reverse 42s linear infinite;
+}
+
+.marquee-track:hover {
   animation-play-state: paused;
 }
 
-.rail-dot {
-  animation: current-pulse 2.6s ease-in-out infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .rail-track {
-    animation: none !important;
-  }
-  .rail-dot {
+  .marquee-forward,
+  .marquee-reverse {
     animation: none !important;
   }
   /* HQ marker radar-ping on the presence maps (Tailwind's animate-ping) */
