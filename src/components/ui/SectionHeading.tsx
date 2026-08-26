@@ -24,8 +24,8 @@ export function SectionHeading({
           <span className={`text-xs font-semibold tracking-[0.14em] uppercase ${eyebrowColor}`}>{eyebrow}</span>
         </div>
       ) : null}
-      <h2 className={`text-3xl font-semibold tracking-tight sm:text-4xl ${titleColor}`}>{title}</h2>
-      {description ? <p className={`text-base leading-7 sm:text-lg sm:leading-8 ${descColor}`}>{description}</p> : null}
+      <h2 className={`text-2xl font-semibold tracking-tight sm:text-4xl ${titleColor}`}>{title}</h2>
+      {description ? <p className={`text-sm leading-relaxed sm:text-base sm:leading-8 ${descColor}`}>{description}</p> : null}
     </div>
   );
 }

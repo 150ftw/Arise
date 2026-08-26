@@ -19,133 +19,223 @@ function nodesY(count: number) {
 
 export function PSIMDiagram({ inputs, outputs }: { inputs: Node[]; outputs: Node[] }) {
   const [active, setActive] = useState<{ side: "in" | "out"; index: number } | null>(null);
+  const [mobileTab, setMobileTab] = useState<"in" | "out">("in");
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
+
   const inputYs = nodesY(inputs.length);
   const outputYs = nodesY(outputs.length);
   const activeNode = active ? (active.side === "in" ? inputs[active.index] : outputs[active.index]) : null;
 
   return (
-    <div className="flex flex-col items-center gap-6">
-      <svg
-        viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-        className="mx-auto w-full max-w-3xl"
-        role="img"
-        aria-label="PSIM situational awareness diagram — hover a subsystem for details"
-      >
-        {inputYs.map((y, i) => {
-          const isActive = active?.side === "in" && active.index === i;
-          const isDimmed = active !== null && !isActive;
-          return (
-            <path
-              key={`in-${i}`}
-              d={`M ${COL_X + NODE_W} ${y} C ${CENTER_X - 60} ${y}, ${CENTER_X - 60} ${CENTER_Y}, ${CENTER_X - 58} ${CENTER_Y}`}
-              fill="none"
-              stroke={isActive ? "#16AFE2" : "#e2e8f0"}
-              strokeWidth={isActive ? 2.4 : 1.2}
-              opacity={isDimmed ? 0.35 : 1}
-              style={{ transition: "all 200ms ease-out" }}
-            />
-          );
-        })}
-        {outputYs.map((y, i) => {
-          const isActive = active?.side === "out" && active.index === i;
-          const isDimmed = active !== null && !isActive;
-          return (
-            <path
-              key={`out-${i}`}
-              d={`M ${WIDTH - COL_X - NODE_W} ${y} C ${CENTER_X + 60} ${y}, ${CENTER_X + 60} ${CENTER_Y}, ${CENTER_X + 58} ${CENTER_Y}`}
-              fill="none"
-              stroke={isActive ? "#C4703A" : "#e2e8f0"}
-              strokeWidth={isActive ? 2.4 : 1.2}
-              opacity={isDimmed ? 0.35 : 1}
-              style={{ transition: "all 200ms ease-out" }}
-            />
-          );
-        })}
+    <div className="flex w-full flex-col items-center gap-6">
+      {/* Mobile Touch View (< md screens) */}
+      <div className="w-full space-y-4 md:hidden">
+        <div className="flex rounded-lg border border-white/15 bg-brand-navy-900 p-1">
+          <button
+            type="button"
+            onClick={() => {
+              setMobileTab("in");
+              setExpandedIndex(0);
+            }}
+            className={`flex-1 rounded-md py-2.5 text-xs font-semibold tracking-wide transition-all uppercase ${
+              mobileTab === "in"
+                ? "bg-brand-accent-500 text-brand-navy-950 shadow-xs"
+                : "text-white/70 hover:text-white"
+            }`}
+          >
+            Integrated Inputs ({inputs.length})
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setMobileTab("out");
+              setExpandedIndex(0);
+            }}
+            className={`flex-1 rounded-md py-2.5 text-xs font-semibold tracking-wide transition-all uppercase ${
+              mobileTab === "out"
+                ? "bg-brand-copper-500 text-white shadow-xs"
+                : "text-white/70 hover:text-white"
+            }`}
+          >
+            Outputs & Control ({outputs.length})
+          </button>
+        </div>
 
-        {inputs.map((node, i) => {
-          const isActive = active?.side === "in" && active.index === i;
-          return (
-            <g
-              key={node.label}
-              transform={`translate(${COL_X}, ${inputYs[i] - NODE_H / 2})`}
-              onMouseEnter={() => setActive({ side: "in", index: i })}
-              onMouseLeave={() => setActive(null)}
-              onFocus={() => setActive({ side: "in", index: i })}
-              onBlur={() => setActive(null)}
-              tabIndex={0}
-              role="button"
-              aria-label={node.label}
-              className="cursor-default outline-none"
-            >
-              <rect
-                width={NODE_W}
-                height={NODE_H}
-                rx={2}
-                fill="#ffffff"
+        <div className="space-y-2">
+          {(mobileTab === "in" ? inputs : outputs).map((node, i) => {
+            const isExpanded = expandedIndex === i;
+            return (
+              <div
+                key={node.label}
+                onClick={() => setExpandedIndex(isExpanded ? null : i)}
+                className={`cursor-pointer rounded-xl border p-4 transition-all ${
+                  isExpanded
+                    ? mobileTab === "in"
+                      ? "border-brand-accent-500 bg-brand-navy-900 shadow-md"
+                      : "border-brand-copper-500 bg-brand-navy-900 shadow-md"
+                    : "border-white/10 bg-brand-navy-900/50 hover:border-white/20"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-semibold text-white">{node.label}</span>
+                  <span
+                    className={`font-mono text-xs ${
+                      mobileTab === "in" ? "text-brand-accent-400" : "text-brand-copper-400"
+                    }`}
+                  >
+                    {isExpanded ? "−" : "+"}
+                  </span>
+                </div>
+                {isExpanded ? (
+                  <p className="mt-2 text-xs leading-relaxed text-white/75">{node.description}</p>
+                ) : null}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Desktop SVG View (>= md screens) */}
+      <div className="hidden w-full flex-col items-center gap-6 md:flex">
+        <svg
+          viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+          className="mx-auto w-full max-w-3xl"
+          role="img"
+          aria-label="PSIM situational awareness diagram — hover a subsystem for details"
+        >
+          {inputYs.map((y, i) => {
+            const isActive = active?.side === "in" && active.index === i;
+            const isDimmed = active !== null && !isActive;
+            return (
+              <path
+                key={`in-${i}`}
+                d={`M ${COL_X + NODE_W} ${y} C ${CENTER_X - 60} ${y}, ${CENTER_X - 60} ${CENTER_Y}, ${CENTER_X - 58} ${CENTER_Y}`}
+                fill="none"
                 stroke={isActive ? "#16AFE2" : "#e2e8f0"}
-                strokeWidth={isActive ? 1.6 : 1}
-                style={{ transition: "stroke 200ms ease-out" }}
+                strokeWidth={isActive ? 2.4 : 1.2}
+                opacity={isDimmed ? 0.35 : 1}
+                style={{ transition: "all 200ms ease-out" }}
               />
-              <text x={NODE_W / 2} y={NODE_H / 2 + 4} textAnchor="middle" className="fill-brand-navy-800 text-[11px] font-medium">
-                {node.label}
-              </text>
-            </g>
-          );
-        })}
-
-        {outputs.map((node, i) => {
-          const isActive = active?.side === "out" && active.index === i;
-          return (
-            <g
-              key={node.label}
-              transform={`translate(${WIDTH - COL_X - NODE_W}, ${outputYs[i] - NODE_H / 2})`}
-              onMouseEnter={() => setActive({ side: "out", index: i })}
-              onMouseLeave={() => setActive(null)}
-              onFocus={() => setActive({ side: "out", index: i })}
-              onBlur={() => setActive(null)}
-              tabIndex={0}
-              role="button"
-              aria-label={node.label}
-              className="cursor-default outline-none"
-            >
-              <rect
-                width={NODE_W}
-                height={NODE_H}
-                rx={2}
-                fill="#ffffff"
+            );
+          })}
+          {outputYs.map((y, i) => {
+            const isActive = active?.side === "out" && active.index === i;
+            const isDimmed = active !== null && !isActive;
+            return (
+              <path
+                key={`out-${i}`}
+                d={`M ${WIDTH - COL_X - NODE_W} ${y} C ${CENTER_X + 60} ${y}, ${CENTER_X + 60} ${CENTER_Y}, ${CENTER_X + 58} ${CENTER_Y}`}
+                fill="none"
                 stroke={isActive ? "#C4703A" : "#e2e8f0"}
-                strokeWidth={isActive ? 1.6 : 1}
-                style={{ transition: "stroke 200ms ease-out" }}
+                strokeWidth={isActive ? 2.4 : 1.2}
+                opacity={isDimmed ? 0.35 : 1}
+                style={{ transition: "all 200ms ease-out" }}
               />
-              <text x={NODE_W / 2} y={NODE_H / 2 + 4} textAnchor="middle" className="fill-brand-navy-800 text-[11px] font-medium">
-                {node.label}
-              </text>
-            </g>
-          );
-        })}
+            );
+          })}
 
-        <circle cx={CENTER_X} cy={CENTER_Y} r={54} className="fill-brand-navy-900" />
-        <text x={CENTER_X} y={CENTER_Y - 6} textAnchor="middle" className="fill-brand-accent-400 text-[13px] font-bold">
-          SAM
-        </text>
-        <text x={CENTER_X} y={CENTER_Y + 12} textAnchor="middle" className="fill-white/70 text-[8px]">
-          <tspan x={CENTER_X} dy={0}>
-            Situational
-          </tspan>
-          <tspan x={CENTER_X} dy={10}>
-            Awareness Matters
-          </tspan>
-        </text>
-      </svg>
+          {inputs.map((node, i) => {
+            const isActive = active?.side === "in" && active.index === i;
+            return (
+              <g
+                key={node.label}
+                transform={`translate(${COL_X}, ${inputYs[i] - NODE_H / 2})`}
+                onMouseEnter={() => setActive({ side: "in", index: i })}
+                onMouseLeave={() => setActive(null)}
+                onFocus={() => setActive({ side: "in", index: i })}
+                onBlur={() => setActive(null)}
+                tabIndex={0}
+                role="button"
+                aria-label={node.label}
+                className="cursor-default outline-none"
+              >
+                <rect
+                  width={NODE_W}
+                  height={NODE_H}
+                  rx={2}
+                  fill="#ffffff"
+                  stroke={isActive ? "#16AFE2" : "#e2e8f0"}
+                  strokeWidth={isActive ? 1.6 : 1}
+                  style={{ transition: "stroke 200ms ease-out" }}
+                />
+                <text
+                  x={NODE_W / 2}
+                  y={NODE_H / 2 + 4}
+                  textAnchor="middle"
+                  className="fill-brand-navy-800 text-[11px] font-medium"
+                >
+                  {node.label}
+                </text>
+              </g>
+            );
+          })}
 
-      <div className="flex h-14 max-w-xl items-center justify-center px-6 text-center">
-        {activeNode ? (
-          <p className="text-sm leading-6 text-white/75">
-            <span className="font-semibold text-white">{activeNode.label}</span> — {activeNode.description}
-          </p>
-        ) : (
-          <p className="font-mono text-xs tracking-wide text-white/35 uppercase">Hover a subsystem for details</p>
-        )}
+          {outputs.map((node, i) => {
+            const isActive = active?.side === "out" && active.index === i;
+            return (
+              <g
+                key={node.label}
+                transform={`translate(${WIDTH - COL_X - NODE_W}, ${outputYs[i] - NODE_H / 2})`}
+                onMouseEnter={() => setActive({ side: "out", index: i })}
+                onMouseLeave={() => setActive(null)}
+                onFocus={() => setActive({ side: "out", index: i })}
+                onBlur={() => setActive(null)}
+                tabIndex={0}
+                role="button"
+                aria-label={node.label}
+                className="cursor-default outline-none"
+              >
+                <rect
+                  width={NODE_W}
+                  height={NODE_H}
+                  rx={2}
+                  fill="#ffffff"
+                  stroke={isActive ? "#C4703A" : "#e2e8f0"}
+                  strokeWidth={isActive ? 1.6 : 1}
+                  style={{ transition: "stroke 200ms ease-out" }}
+                />
+                <text
+                  x={NODE_W / 2}
+                  y={NODE_H / 2 + 4}
+                  textAnchor="middle"
+                  className="fill-brand-navy-800 text-[11px] font-medium"
+                >
+                  {node.label}
+                </text>
+              </g>
+            );
+          })}
+
+          <circle cx={CENTER_X} cy={CENTER_Y} r={54} className="fill-brand-navy-900" />
+          <text
+            x={CENTER_X}
+            y={CENTER_Y - 6}
+            textAnchor="middle"
+            className="fill-brand-accent-400 text-[13px] font-bold"
+          >
+            SAM
+          </text>
+          <text x={CENTER_X} y={CENTER_Y + 12} textAnchor="middle" className="fill-white/70 text-[8px]">
+            <tspan x={CENTER_X} dy={0}>
+              Situational
+            </tspan>
+            <tspan x={CENTER_X} dy={10}>
+              Awareness Matters
+            </tspan>
+          </text>
+        </svg>
+
+        <div className="flex h-14 max-w-xl items-center justify-center px-6 text-center">
+          {activeNode ? (
+            <p className="text-sm leading-6 text-white/75">
+              <span className="font-semibold text-white">{activeNode.label}</span> — {activeNode.description}
+            </p>
+          ) : (
+            <p className="font-mono text-xs tracking-wide text-white/35 uppercase">
+              Hover a subsystem for details
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

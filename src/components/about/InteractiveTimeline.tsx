@@ -9,10 +9,10 @@ export function InteractiveTimeline() {
   const current = companyTimeline[activeIndex];
 
   return (
-    <div className="rounded-2xl border border-brand-line bg-white p-6 shadow-sm sm:p-8">
+    <div className="rounded-2xl border border-brand-line bg-white p-4 shadow-sm sm:p-8">
       {/* Top Year Stepper */}
       <div className="relative">
-        {/* Connecting track line */}
+        {/* Connecting track line on desktop */}
         <div className="absolute top-5 left-6 right-6 hidden h-0.5 bg-brand-line sm:block" />
         <div
           className="absolute top-5 left-6 hidden h-0.5 bg-brand-accent-500 transition-all duration-300 sm:block"
@@ -21,7 +21,7 @@ export function InteractiveTimeline() {
           }}
         />
 
-        <div className="grid grid-cols-3 gap-2 sm:flex sm:justify-between">
+        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none sm:grid sm:grid-cols-6 sm:justify-between sm:overflow-visible sm:pb-0">
           {companyTimeline.map((item, index) => {
             const isActive = index === activeIndex;
             const isPast = index < activeIndex;
@@ -30,12 +30,12 @@ export function InteractiveTimeline() {
                 key={item.year}
                 type="button"
                 onClick={() => setActiveIndex(index)}
-                className="group relative flex flex-col items-center gap-2 text-center"
+                className="group relative flex shrink-0 flex-col items-center gap-1.5 text-center sm:shrink"
               >
                 <div
                   className={`flex h-10 w-10 items-center justify-center rounded-full border-2 font-mono text-xs font-bold transition-all duration-200 ${
                     isActive
-                      ? "border-brand-navy-950 bg-brand-navy-950 text-white shadow-md scale-110"
+                      ? "border-brand-navy-950 bg-brand-navy-950 text-white shadow-md scale-105 sm:scale-110"
                       : isPast
                       ? "border-brand-accent-500 bg-brand-accent-50 text-brand-accent-700"
                       : "border-brand-line bg-white text-brand-steel-600 hover:border-brand-steel-400"
@@ -44,9 +44,9 @@ export function InteractiveTimeline() {
                   {item.year.replace("+", "")}
                 </div>
                 <span
-                  className={`text-xs font-semibold tracking-wide transition-colors ${
+                  className={`text-[11px] font-semibold tracking-wide whitespace-nowrap transition-colors sm:text-xs ${
                     isActive
-                      ? "text-brand-navy-950"
+                      ? "text-brand-navy-950 font-bold"
                       : "text-brand-steel-600/70 group-hover:text-brand-navy-900"
                   }`}
                 >
@@ -59,10 +59,10 @@ export function InteractiveTimeline() {
       </div>
 
       {/* Active Milestone Card */}
-      <div className="mt-8 rounded-xl border border-brand-line bg-brand-paper p-6 sm:p-8">
+      <div className="mt-6 rounded-xl border border-brand-line bg-brand-paper p-5 sm:mt-8 sm:p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <span className="font-mono text-3xl font-bold tracking-tight text-brand-accent-600">
+            <span className="font-mono text-2xl font-bold tracking-tight text-brand-accent-600 sm:text-3xl">
               {current.year}
             </span>
             <span className="rounded-full bg-brand-navy-950 px-3 py-1 font-mono text-[10px] font-semibold text-brand-accent-400 uppercase">
@@ -70,45 +70,45 @@ export function InteractiveTimeline() {
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between gap-2 border-t border-brand-line/60 pt-3 sm:border-t-0 sm:pt-0">
             <button
               type="button"
               disabled={activeIndex === 0}
               onClick={() => setActiveIndex((prev) => Math.max(0, prev - 1))}
               aria-label="Previous milestone"
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-brand-line bg-white text-brand-navy-900 transition-colors hover:bg-brand-paper disabled:opacity-30 disabled:cursor-not-allowed"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-brand-line bg-white text-brand-navy-900 transition-colors active:bg-brand-paper disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <span className="font-mono text-xs text-brand-steel-600">
-              {activeIndex + 1} / {companyTimeline.length}
+              {activeIndex + 1} of {companyTimeline.length}
             </span>
             <button
               type="button"
               disabled={activeIndex === companyTimeline.length - 1}
               onClick={() => setActiveIndex((prev) => Math.min(companyTimeline.length - 1, prev + 1))}
               aria-label="Next milestone"
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-brand-line bg-white text-brand-navy-900 transition-colors hover:bg-brand-paper disabled:opacity-30 disabled:cursor-not-allowed"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-brand-line bg-white text-brand-navy-900 transition-colors active:bg-brand-paper disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
         </div>
 
-        <h3 className="mt-4 text-xl font-bold text-brand-navy-950 sm:text-2xl">
+        <h3 className="mt-4 text-lg font-bold leading-snug text-brand-navy-950 sm:text-2xl">
           {current.title}
         </h3>
 
-        <p className="mt-3 text-sm leading-relaxed text-brand-steel-600">
+        <p className="mt-2.5 text-xs leading-relaxed text-brand-steel-600 sm:text-sm">
           {current.description}
         </p>
 
-        <div className="mt-6 border-t border-brand-line pt-5">
+        <div className="mt-5 border-t border-brand-line pt-4 sm:mt-6 sm:pt-5">
           <h4 className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-brand-navy-900 uppercase">
             <Sparkles className="h-3.5 w-3.5 text-brand-accent-600" />
             Key Achievements & Capabilities
           </h4>
-          <ul className="mt-3 grid gap-2.5 sm:grid-cols-3">
+          <ul className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-3">
             {current.highlights.map((highlight) => (
               <li
                 key={highlight}

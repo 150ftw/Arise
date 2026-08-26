@@ -29,36 +29,103 @@ export function HubDiagram({
   });
 
   return (
-    <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="mx-auto w-full max-w-lg" role="img" aria-label={`${centerLabel} diagram`}>
-      {positions.map((p, i) => (
-        <line key={`line-${i}`} x1={CENTER} y1={CENTER} x2={p.x} y2={p.y} className={lineStroke} strokeWidth={1.5} />
-      ))}
+    <div className="w-full">
+      {/* Mobile-Friendly Grid (< sm screens) */}
+      <div className="block sm:hidden">
+        <div className="rounded-xl border border-brand-accent-500/30 bg-brand-navy-900 p-5 text-center shadow-lg">
+          <span className="rounded-full bg-brand-accent-500/20 px-3 py-1 font-mono text-[10px] font-semibold text-brand-accent-400 uppercase">
+            Focus Domain
+          </span>
+          <h4 className="mt-2 text-xl font-bold text-white">{centerLabel}</h4>
+          {centerSublabel ? (
+            <p className="text-xs text-brand-accent-300">{centerSublabel}</p>
+          ) : null}
+        </div>
 
-      <circle cx={CENTER} cy={CENTER} r={78} className={centerFill} />
-      <text x={CENTER} y={CENTER - 6} textAnchor="middle" className={`${centerText} text-[15px] font-semibold`}>
-        {centerLabel}
-      </text>
-      {centerSublabel ? (
-        <text x={CENTER} y={CENTER + 14} textAnchor="middle" className={`${centerText} text-[10px] opacity-80`}>
-          {centerSublabel}
-        </text>
-      ) : null}
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          {items.map((item, i) => (
+            <div
+              key={item}
+              className="flex items-center gap-2 rounded-lg border border-white/10 bg-brand-navy-900/60 p-3 text-xs font-semibold text-white/90"
+            >
+              <span className="font-mono text-[10px] text-brand-accent-400">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="truncate">{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
-      {positions.map((p, i) => {
-        const words = p.label.split(" ");
-        return (
-          <g key={i}>
-            <circle cx={p.x} cy={p.y} r={NODE_R} className={`${nodeFill} ${nodeStroke}`} strokeWidth={1} />
-            <text x={p.x} y={p.y} textAnchor="middle" dominantBaseline="middle" className={`${nodeText} text-[11px] font-medium`}>
-              {words.map((w, wi) => (
-                <tspan key={wi} x={p.x} dy={wi === 0 ? -((words.length - 1) * 6) : 12}>
-                  {w}
-                </tspan>
-              ))}
+      {/* Desktop/Tablet Radial SVG Diagram (>= sm screens) */}
+      <div className="hidden sm:block">
+        <svg
+          viewBox={`0 0 ${SIZE} ${SIZE}`}
+          className="mx-auto w-full max-w-lg"
+          role="img"
+          aria-label={`${centerLabel} diagram`}
+        >
+          {positions.map((p, i) => (
+            <line
+              key={`line-${i}`}
+              x1={CENTER}
+              y1={CENTER}
+              x2={p.x}
+              y2={p.y}
+              className={lineStroke}
+              strokeWidth={1.5}
+            />
+          ))}
+
+          <circle cx={CENTER} cy={CENTER} r={78} className={centerFill} />
+          <text
+            x={CENTER}
+            y={CENTER - 6}
+            textAnchor="middle"
+            className={`${centerText} text-[15px] font-semibold`}
+          >
+            {centerLabel}
+          </text>
+          {centerSublabel ? (
+            <text
+              x={CENTER}
+              y={CENTER + 14}
+              textAnchor="middle"
+              className={`${centerText} text-[10px] opacity-80`}
+            >
+              {centerSublabel}
             </text>
-          </g>
-        );
-      })}
-    </svg>
+          ) : null}
+
+          {positions.map((p, i) => {
+            const words = p.label.split(" ");
+            return (
+              <g key={i}>
+                <circle
+                  cx={p.x}
+                  cy={p.y}
+                  r={NODE_R}
+                  className={`${nodeFill} ${nodeStroke}`}
+                  strokeWidth={1}
+                />
+                <text
+                  x={p.x}
+                  y={p.y}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className={`${nodeText} text-[11px] font-medium`}
+                >
+                  {words.map((w, wi) => (
+                    <tspan key={wi} x={p.x} dy={wi === 0 ? -((words.length - 1) * 6) : 12}>
+                      {w}
+                    </tspan>
+                  ))}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+    </div>
   );
 }

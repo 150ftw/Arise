@@ -76,6 +76,27 @@ export function IndiaMap() {
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
       <div className="flex-1 border border-brand-line bg-white p-4">
+        {/* Mobile State Selector Dropdown */}
+        <div className="mb-4 block sm:hidden">
+          <label className="text-xs font-semibold text-brand-steel-600 uppercase">
+            Select State to View Service Network
+          </label>
+          <select
+            value={activeId || ""}
+            onChange={(e) => e.target.value && handleEnter(e.target.value)}
+            className="mt-1.5 w-full rounded-lg border border-brand-line bg-brand-paper p-2.5 text-xs font-semibold text-brand-navy-900 outline-none focus:border-brand-accent-500"
+          >
+            <option value="">-- Choose a State / Territory --</option>
+            {locations
+              .filter((loc) => indiaStateHighlights[loc.id] || loc.id === headquartersStateId)
+              .map((loc) => (
+                <option key={loc.id} value={loc.id}>
+                  {loc.name} {loc.id === headquartersStateId ? "(Headquarters)" : ""}
+                </option>
+              ))}
+          </select>
+        </div>
+
         <svg viewBox={indiaMap.viewBox} className="w-full" role="img" aria-label="Map of India, Icon Power presence">
           {locations.map((loc) => {
             const isHighlighted = Boolean(indiaStateHighlights[loc.id]);
@@ -89,12 +110,13 @@ export function IndiaMap() {
                 }}
                 d={loc.path}
                 onMouseEnter={() => handleEnter(loc.id)}
+                onClick={() => handleEnter(loc.id)}
                 onFocus={() => handleEnter(loc.id)}
                 tabIndex={isHighlighted ? 0 : -1}
                 aria-label={loc.name}
                 className={[
-                  "cursor-default outline-none transition-colors duration-150",
-                  isHighlighted ? "fill-brand-accent-500" : "fill-brand-line/70",
+                  "cursor-pointer outline-none transition-colors duration-150",
+                  isHighlighted ? "fill-brand-accent-500 hover:fill-brand-accent-600" : "fill-brand-line/70",
                   isActive && isHighlighted ? "fill-brand-navy-900" : "",
                   isHq ? "fill-brand-navy-900" : "",
                 ].join(" ")}
@@ -111,7 +133,7 @@ export function IndiaMap() {
         </svg>
         <div className="mt-4 flex flex-wrap gap-4 text-xs text-brand-steel-600">
           <span className="inline-flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-brand-navy-900" /> Headquarters (Manesar, Haryana)
+            <span className="h-2.5 w-2.5 rounded-full bg-brand-navy-900" /> Headquarters (Manesar)
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-brand-accent-500" /> Service presence
@@ -122,22 +144,30 @@ export function IndiaMap() {
         </div>
       </div>
 
-      <div className="w-full shrink-0 border border-brand-line bg-brand-paper p-6 lg:w-72">
+      <div className="w-full shrink-0 border border-brand-line bg-brand-paper p-5 sm:p-6 lg:w-72">
         {activeLocation && activeCities ? (
           <>
-            <h3 className="text-base font-semibold text-brand-navy-900">{activeLocation.name}</h3>
-            <ul className="mt-3 flex flex-col gap-1.5 text-sm text-brand-steel-600">
+            <div className="flex items-center justify-between">
+              <h3 className="text-base font-semibold text-brand-navy-900">{activeLocation.name}</h3>
+              <span className="rounded-full bg-brand-accent-500/20 px-2 py-0.5 font-mono text-[10px] font-semibold text-brand-accent-700">
+                {activeCities.length} Cities
+              </span>
+            </div>
+            <ul className="mt-3 grid grid-cols-2 gap-1.5 text-xs text-brand-steel-600 sm:text-sm lg:grid-cols-1">
               {activeCities.map((city) => (
-                <li key={city}>{city}</li>
+                <li key={city} className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-brand-accent-500" />
+                  {city}
+                </li>
               ))}
             </ul>
           </>
         ) : (
           <>
-            <h3 className="text-base font-semibold text-brand-navy-900">Hover a state</h3>
-            <p className="mt-2 text-sm leading-6 text-brand-steel-600">
-              Highlighted states show Icon Power&rsquo;s service locations, connected back to the Manesar
-              headquarters. Hover or focus a state to see the cities covered.
+            <h3 className="text-base font-semibold text-brand-navy-900">Select or Tap a State</h3>
+            <p className="mt-2 text-xs leading-relaxed text-brand-steel-600 sm:text-sm sm:leading-6">
+              Highlighted states show Icon Power&rsquo;s service network, connected back to the Manesar
+              headquarters. Tap any highlighted state to see cities covered.
             </p>
           </>
         )}

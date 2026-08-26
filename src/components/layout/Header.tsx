@@ -124,26 +124,49 @@ export function Header() {
       ) : null}
 
       {mobileOpen ? (
-        <div className="border-b border-brand-line bg-white lg:hidden">
-          <Container className="flex flex-col gap-1 py-4">
-            {primaryNav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className="border-b border-brand-line py-3 text-base font-medium text-brand-navy-900"
-              >
-                {item.label}
-              </Link>
-            ))}
-            <Link
-              href="/contact"
-              onClick={() => setMobileOpen(false)}
-              className="mt-4 inline-flex items-center justify-center bg-brand-navy-900 px-5 py-3 text-xs font-semibold tracking-wide text-white uppercase"
-            >
-              Contact Us
-            </Link>
-          </Container>
+        <div className="fixed inset-x-0 top-[61px] bottom-0 z-50 flex flex-col bg-brand-navy-950/70 backdrop-blur-sm lg:hidden">
+          <div className="flex max-h-[85vh] flex-col overflow-y-auto border-b border-brand-line bg-white shadow-2xl">
+            <Container className="flex flex-col py-4">
+              <nav className="flex flex-col divide-y divide-brand-line">
+                {primaryNav.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center justify-between py-3.5 text-base font-semibold text-brand-navy-900 transition-colors active:text-brand-accent-600"
+                  >
+                    <span>{item.label}</span>
+                    <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 text-brand-steel-400">
+                      <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
+                ))}
+              </nav>
+
+              <div className="mt-6 flex flex-col gap-3 border-t border-brand-line pt-5">
+                <Link
+                  href="/contact"
+                  onClick={() => setMobileOpen(false)}
+                  className="inline-flex h-12 w-full items-center justify-center bg-brand-navy-900 text-xs font-semibold tracking-wide text-white uppercase shadow-md active:bg-brand-navy-800"
+                >
+                  Contact Us / Request Quote
+                </Link>
+
+                <div className="mt-2 flex flex-col gap-1.5 text-center text-xs text-brand-steel-600">
+                  <a href={`tel:${company.phones[0].replace(/[^\d+]/g, "")}`} className="font-semibold text-brand-navy-900">
+                    Call: {company.phones[0]}
+                  </a>
+                  <a href={`mailto:${company.email}`} className="text-brand-accent-600">
+                    {company.email}
+                  </a>
+                  <span className="text-[11px] text-brand-steel-400">
+                    {company.certification} · IMT Manesar, Gurugram
+                  </span>
+                </div>
+              </div>
+            </Container>
+          </div>
+          <div className="flex-1" onClick={() => setMobileOpen(false)} />
         </div>
       ) : null}
     </header>

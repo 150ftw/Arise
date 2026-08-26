@@ -85,10 +85,11 @@ export function WorldMap() {
                 d={loc.path}
                 onMouseEnter={() => isHighlighted && handleEnter(loc.id)}
                 onMouseLeave={() => isHighlighted && setActiveId(null)}
+                onClick={() => isHighlighted && handleEnter(loc.id)}
                 aria-label={isHighlighted ? loc.name : undefined}
                 className={[
-                  "transition-colors duration-150",
-                  isHighlighted ? "fill-brand-accent-500 cursor-default" : "fill-brand-line/70",
+                  "transition-colors duration-150 cursor-pointer",
+                  isHighlighted ? "fill-brand-accent-500 hover:fill-brand-accent-600" : "fill-brand-line/70",
                   isActive ? "fill-brand-navy-900" : "",
                 ].join(" ")}
                 stroke="#ffffff"
@@ -102,24 +103,26 @@ export function WorldMap() {
         </svg>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-2 sm:gap-3">
         <span className="inline-flex items-center gap-1.5 pr-2 text-xs text-brand-steel-600">
           <span className="h-2 w-2 shrink-0 rounded-full bg-brand-navy-900" />
           Manesar HQ
         </span>
         {globalPresenceCountries.map((c) => (
-          <span
+          <button
             key={c.id}
+            type="button"
+            onClick={() => handleEnter(c.id)}
             onMouseEnter={() => handleEnter(c.id)}
             onMouseLeave={() => setActiveId(null)}
-            className={`cursor-default border px-4 py-1.5 text-sm font-medium transition-colors ${
+            className={`border px-3 py-1 text-xs font-medium transition-colors sm:px-4 sm:py-1.5 sm:text-sm ${
               activeCountry?.id === c.id
                 ? "border-brand-navy-900 bg-brand-navy-900 text-white"
-                : "border-brand-line bg-white text-brand-navy-800"
+                : "border-brand-line bg-white text-brand-navy-800 hover:bg-brand-paper"
             }`}
           >
             {c.name}
-          </span>
+          </button>
         ))}
       </div>
     </div>
